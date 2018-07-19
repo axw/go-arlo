@@ -44,6 +44,7 @@ func Main() error {
 		cmdProfile,
 		cmdLocations,
 		cmdDevices,
+		cmdSnapshot,
 	)
 	return rootCmd.Execute()
 }

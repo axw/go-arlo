@@ -13,25 +13,29 @@ const (
 )
 
 type Device struct {
-	UniqueID           string
-	DeviceID           string
-	UserID             string
-	DeviceType         string
-	DeviceName         string
-	LastModified       time.Time
-	FirmwareVersion    string
-	XCloudID           string
-	UserRole           string
-	DisplayOrder       int
-	MediaObjectCount   int
-	State              string
-	ModelID            string
-	DateCreated        time.Time
-	ArloMobilePlan     bool
-	InterfaceVersion   string
-	InterfaceSchemaVer string
-	AutomationRevision int
-	Owner              struct {
+	UniqueID                      string
+	DeviceID                      string
+	ParentID                      string
+	UserID                        string
+	DeviceType                    string
+	DeviceName                    string
+	LastModified                  time.Time
+	FirmwareVersion               string
+	XCloudID                      string
+	UserRole                      string
+	DisplayOrder                  int
+	MediaObjectCount              int
+	State                         string
+	ModelID                       string
+	DateCreated                   time.Time
+	ArloMobilePlan                bool
+	InterfaceVersion              string
+	InterfaceSchemaVer            string
+	AutomationRevision            int
+	PresignedLastImageURL         string
+	PresignedSnapshotURL          string
+	PresignedFullFrameSnapshotURL string
+	Owner                         struct {
 		FirstName string
 		LastName  string
 		OwnerID   string
@@ -61,7 +65,8 @@ func (c *Client) Devices(ctx context.Context) ([]Device, error) {
 		Data    []InnerDevice
 		Success bool
 	}
-	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+	decoder := json.NewDecoder(resp.Body)
+	if err := decoder.Decode(&result); err != nil {
 		return nil, err
 	}
 	if !result.Success {
